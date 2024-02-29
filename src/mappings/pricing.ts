@@ -3,8 +3,8 @@ import { Pair, Token, Bundle } from '../types/schema'
 import { BigDecimal, Address, BigInt } from '@graphprotocol/graph-ts/index'
 import { ZERO_BD, factoryContract, ADDRESS_ZERO, ONE_BD, UNTRACKED_PAIRS } from './helpers'
 
-const WETH_ADDRESS = '0x4b21b980d0dc7d3c0c6175b0a412694f3a1c7c6b'
-const USDC_WETH_PAIR = '0xf1de726ac46205538a046e0846b7c77e6c910c31' // created 10008355
+const WETH_ADDRESS = '0xd33db7ec50a98164cc865dfaa64666906d79319c'
+// const USDC_WETH_PAIR = '0xf1de726ac46205538a046e0846b7c77e6c910c31' // created 10008355
 // const DAI_WETH_PAIR = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11' // created block 10042267
 // const USDT_WETH_PAIR = '0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852' // created block 10093341
 
@@ -38,13 +38,14 @@ export function getEthPriceInUSD(): BigDecimal {
   // }
   
   // fetch eth prices for each stablecoin
-  let usdcPair = Pair.load(USDC_WETH_PAIR) // usdc is token0
+  // let usdcPair = Pair.load(USDC_WETH_PAIR) // usdc is token0
 
-  if (usdcPair !== null) {
-    return usdcPair.token0Price
-  } else {
-    return ZERO_BD
-  }
+  // if (usdcPair !== null) {
+  //   return usdcPair.token0Price
+  // } else {
+  //   return ZERO_BD
+  // }
+  return ONE_BD
 }
 
 // token where amounts should contribute to tracked volume and liquidity
@@ -52,6 +53,7 @@ let WHITELIST: string[] = [
   '0x4b21b980d0dc7d3c0c6175b0a412694f3a1c7c6b', // WETH
   '0x3f97bf3cd76b5ca9d4a4e9cd8a73c24e32d6c193', // USDT
   '0x813bcb548f99bc081e5efeeaa65e3018befb92ae', // WBTC
+  '0xd33db7ec50a98164cc865dfaa64666906d79319c', // WUSDC
   // '0x6b175474e89094c44da98b954eedeac495271d0f', // DAI
   // '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', // USDC
   // '0xdac17f958d2ee523a2206206994597c13d831ec7', // USDT
@@ -75,7 +77,7 @@ let WHITELIST: string[] = [
 ]
 
 // minimum liquidity required to count towards tracked volume for pairs with small # of Lps
-let MINIMUM_USD_THRESHOLD_NEW_PAIRS = BigDecimal.fromString('400000')
+let MINIMUM_USD_THRESHOLD_NEW_PAIRS = BigDecimal.fromString('0.0000004')
 
 // minimum liquidity for price to get tracked
 // let MINIMUM_LIQUIDITY_THRESHOLD_ETH = BigDecimal.fromString('2')
