@@ -3,61 +3,39 @@ import { Pair, Token, Bundle } from '../types/schema'
 import { BigDecimal, Address, BigInt } from '@graphprotocol/graph-ts/index'
 import { ZERO_BD, factoryContract, ADDRESS_ZERO, ONE_BD, UNTRACKED_PAIRS } from './helpers'
 
-const WETH_ADDRESS = '0xd33db7ec50a98164cc865dfaa64666906d79319c'
-// const USDC_WETH_PAIR = '0xf1de726ac46205538a046e0846b7c77e6c910c31' // created 10008355
+const WETH_ADDRESS = '0x0dc808adce2099a9f62aa87d9670745aba741746'
+const USDC_WETH_PAIR = '0xf42efde181cdf4de199107ddfa0c86abf452a141' 
 // const DAI_WETH_PAIR = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11' // created block 10042267
-// const USDT_WETH_PAIR = '0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852' // created block 10093341
+const USDT_WETH_PAIR = '0xd5cbe097659f23a1e910689e839c2ab4cf70f0a8' 
 
 export function getEthPriceInUSD(): BigDecimal {
   // // fetch eth prices for each stablecoin
   // let daiPair = Pair.load(DAI_WETH_PAIR) // dai is token0
-  // let usdcPair = Pair.load(USDC_WETH_PAIR) // usdc is token0
-  // let usdtPair = Pair.load(USDT_WETH_PAIR) // usdt is token1
+  let usdcPair = Pair.load(USDC_WETH_PAIR) // usdc is token1
+  let usdtPair = Pair.load(USDT_WETH_PAIR) // usdt is token1
 
-  // // all 3 have been created
-  // if (daiPair !== null && usdcPair !== null && usdtPair !== null) {
-  //   let totalLiquidityETH = daiPair.reserve1.plus(usdcPair.reserve1).plus(usdtPair.reserve0)
-  //   let daiWeight = daiPair.reserve1.div(totalLiquidityETH)
-  //   let usdcWeight = usdcPair.reserve1.div(totalLiquidityETH)
-  //   let usdtWeight = usdtPair.reserve0.div(totalLiquidityETH)
-  //   return daiPair.token0Price
-  //     .times(daiWeight)
-  //     .plus(usdcPair.token0Price.times(usdcWeight))
-  //     .plus(usdtPair.token1Price.times(usdtWeight))
-  //   // dai and USDC have been created
-  // } else if (daiPair !== null && usdcPair !== null) {
-  //   let totalLiquidityETH = daiPair.reserve1.plus(usdcPair.reserve1)
-  //   let daiWeight = daiPair.reserve1.div(totalLiquidityETH)
-  //   let usdcWeight = usdcPair.reserve1.div(totalLiquidityETH)
-  //   return daiPair.token0Price.times(daiWeight).plus(usdcPair.token0Price.times(usdcWeight))
-  //   // USDC is the only pair so far
-  // } else if (usdcPair !== null) {
-  //   return usdcPair.token0Price
-  // } else {
-  //   return ZERO_BD
-  // }
-  
-  // fetch eth prices for each stablecoin
-  // let usdcPair = Pair.load(USDC_WETH_PAIR) // usdc is token0
-
-  // if (usdcPair !== null) {
-  //   return usdcPair.token0Price
-  // } else {
-  //   return ZERO_BD
-  // }
-  return ONE_BD
+  // USDT and USDC have been created
+  if (usdtPair !== null && usdcPair !== null) {
+    let totalLiquidityETH = usdtPair.reserve0.plus(usdcPair.reserve0)
+    let daiWeight = usdtPair.reserve0.div(totalLiquidityETH)
+    let usdcWeight = usdcPair.reserve0.div(totalLiquidityETH)
+    return usdtPair.token1Price.times(daiWeight).plus(usdcPair.token1Price.times(usdcWeight))
+    // USDC is the only pair so far
+  } else if (usdcPair !== null) {
+    return usdcPair.token1Price
+  } else {
+    return ZERO_BD
+  }  
 }
 
 // token where amounts should contribute to tracked volume and liquidity
 let WHITELIST: string[] = [
-  '0x4b21b980d0dc7d3c0c6175b0a412694f3a1c7c6b', // WETH
-  '0x3f97bf3cd76b5ca9d4a4e9cd8a73c24e32d6c193', // USDT
-  '0x813bcb548f99bc081e5efeeaa65e3018befb92ae', // WBTC
-  '0xd33db7ec50a98164cc865dfaa64666906d79319c', // WUSDC
-  // '0x6b175474e89094c44da98b954eedeac495271d0f', // DAI
-  // '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', // USDC
-  // '0xdac17f958d2ee523a2206206994597c13d831ec7', // USDT
-  // '0x0000000000085d4780b73119b644ae5ecd22b376', // TUSD
+  '0x0dc808adce2099a9f62aa87d9670745aba741746', // WETH
+  '0xf417f5a458ec102b90352f697d6e2ac3a3d2851f', // USDT
+  '0x305e88d809c9dc03179554bfbf85ac05ce8f18d6', // WBTC
+  '0xb73603c5d87fa094b7314c74ace2e64d165016fb', // USDC
+  '0x1c466b9371f8aba0d7c458be10a62192fcb8aa71', // DAI
+  '0x95cef13441be50d20ca4558cc0a27b601ac544e5', // MANTA
   // '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643', // cDAI
   // '0x39aa39c021dfbae8fac545936693ac917d5e7563', // cUSDC
   // '0x86fadb80d8d2cff3c3680819e4da99c10232ba0f', // EBASE

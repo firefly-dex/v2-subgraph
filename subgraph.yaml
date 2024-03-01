@@ -9,11 +9,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: zkfair
+    network: manta
     source:
-      address: '0xcc3a2EbFcC3f8C3F3B98167Ba69f187D8Ac25491'
+      address: '0xde3904fC028d8B6e4c1f67Ea717BF3fb04DCD8A3'
       abi: Factory
-      startBlock: 6740664
+      startBlock: 1465280
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -37,7 +37,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Pair
-    network: zkfair
+    network: manta
     source:
       abi: Pair
     mapping:
