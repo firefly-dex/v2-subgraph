@@ -17,9 +17,9 @@ export function getEthPriceInUSD(): BigDecimal {
   // USDT and USDC have been created
   if (usdtPair !== null && usdcPair !== null) {
     let totalLiquidityETH = usdtPair.reserve0.plus(usdcPair.reserve0)
-    let daiWeight = usdtPair.reserve0.div(totalLiquidityETH)
+    let usdtWeight = usdtPair.reserve0.div(totalLiquidityETH)
     let usdcWeight = usdcPair.reserve0.div(totalLiquidityETH)
-    return usdtPair.token1Price.times(daiWeight).plus(usdcPair.token1Price.times(usdcWeight))
+    return usdtPair.token1Price.times(usdtWeight).plus(usdcPair.token1Price.times(usdcWeight))
     // USDC is the only pair so far
   } else if (usdcPair !== null) {
     return usdcPair.token1Price
