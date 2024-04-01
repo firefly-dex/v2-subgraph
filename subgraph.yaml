@@ -11,9 +11,9 @@ dataSources:
     name: Factory
     network: manta
     source:
-      address: '0xde3904fC028d8B6e4c1f67Ea717BF3fb04DCD8A3'
+      address: '0x64ff3b0dfa2e3f46b4777dbac310f29e06146808'
       abi: Factory
-      startBlock: 1465280
+      startBlock: 1775680
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

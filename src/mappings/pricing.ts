@@ -4,15 +4,20 @@ import { BigDecimal, Address, BigInt } from '@graphprotocol/graph-ts/index'
 import { ZERO_BD, factoryContract, ADDRESS_ZERO, ONE_BD, UNTRACKED_PAIRS } from './helpers'
 
 const WETH_ADDRESS = '0x0dc808adce2099a9f62aa87d9670745aba741746'
-const USDC_WETH_PAIR = '0xf42efde181cdf4de199107ddfa0c86abf452a141' 
+// FF TODO: add USDC_WETH pair for Firefly V1.0
+const USDC_WETH_PAIR = null
+// FF TODO: add USDT_WETH pair for Firefly V1.0
+const USDT_WETH_PAIR = null
 // const DAI_WETH_PAIR = '0xa478c2975ab1ea89e8196811f51a7b7ade33eb11' // created block 10042267
-const USDT_WETH_PAIR = '0xd5cbe097659f23a1e910689e839c2ab4cf70f0a8' 
 
 export function getEthPriceInUSD(): BigDecimal {
+  // FF TODO: replace once you have USDC_WETH and USDT_WETH pairs
+  return ZERO_BD
+
   // // fetch eth prices for each stablecoin
-  // let daiPair = Pair.load(DAI_WETH_PAIR) // dai is token0
   let usdcPair = Pair.load(USDC_WETH_PAIR) // usdc is token1
   let usdtPair = Pair.load(USDT_WETH_PAIR) // usdt is token1
+  // let daiPair = Pair.load(DAI_WETH_PAIR) // dai is token0
 
   // USDT and USDC have been created
   if (usdtPair !== null && usdcPair !== null) {
